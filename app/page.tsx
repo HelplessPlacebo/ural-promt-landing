@@ -1,4 +1,4 @@
-import {Contact, Features, Footer, Gallery, Header, Hero, Specs} from "./components";
+import {Contact, Features, Footer, Gallery, Header, Hero, Specs} from "@/components";
 
 
 export default function Page() {

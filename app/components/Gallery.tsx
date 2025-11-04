@@ -1,6 +1,7 @@
 "use client";
-import {TouchEventHandler, useRef, useState} from "react";
+import {TouchEventHandler, useEffect, useRef, useState} from "react";
 import Image from "next/image";
+import {AnimatePresence, motion} from "framer-motion";
 
 type Slide = {
     src: string;
@@ -35,6 +36,15 @@ export function Gallery() {
         if (diff > 50) nextSlide();
         else if (diff < -50) prevSlide();
     };
+
+    // ESC listener
+    useEffect(() => {
+        const handleEsc = (e: KeyboardEvent) => {
+            if (e.key === "Escape") setModal(null);
+        };
+        window.addEventListener("keydown", handleEsc);
+        return () => window.removeEventListener("keydown", handleEsc);
+    }, []);
 
     return (
         <section id="gallery" className="section">
@@ -93,24 +103,50 @@ export function Gallery() {
                 ))}
             </div>
 
-            {modal && (
-                <div className="modal" onClick={() => setModal(null)}>
-                    {modal.type === "image" ? (
-                        <img
-                            alt="modal-img"
-                            src={modal.src}
-                            style={{maxWidth: "90%", maxHeight: "90%", borderRadius: "16px"}}
-                        />
-                    ) : (
-                        <video
-                            src={modal.src}
-                            controls
-                            autoPlay
-                            style={{maxWidth: "90%", maxHeight: "90%", borderRadius: "16px"}}
-                        />
-                    )}
-                </div>
-            )}
+            <AnimatePresence>
+                {modal && (
+                    <motion.div
+                        className="modal"
+                        onClick={() => setModal(null)}
+                        initial={{opacity: 0}}
+                        animate={{opacity: 1}}
+                        exit={{opacity: 0}}
+                        transition={{duration: 0.3}}
+                    >
+                        <motion.div
+                            className="modal-content"
+                            onClick={(e) => e.stopPropagation()}
+                            initial={{scale: 0.9, opacity: 0}}
+                            animate={{scale: 1, opacity: 1}}
+                            exit={{scale: 0.9, opacity: 0}}
+                            transition={{duration: 0.3}}
+                            style={{position: "relative"}}
+                        >
+                            <button
+                                onClick={() => setModal(null)}
+                                className='modal-close-button'
+                            >
+                                &times;
+                            </button>
+
+                            {modal.type === "image" ? (
+                                <img
+                                    alt="modal-img"
+                                    src={modal.src}
+                                    className='modal-content'
+                                />
+                            ) : (
+                                <video
+                                    src={modal.src}
+                                    controls
+                                    autoPlay
+                                    className='modal-content'
+                                />
+                            )}
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </section>
     );
 }

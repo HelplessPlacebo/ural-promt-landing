@@ -430,6 +430,29 @@ h2 {
     z-index: 999;
 }
 
+.modal-close-button {
+    position: absolute;
+    top: 10px;
+    right: 60px;
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.modal-content {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 16px;
+    display: block;
+    margin: 0 auto;
+}
+
 
 .phone-input {
     padding: 12px 14px;
@@ -477,6 +500,10 @@ h2 {
     .specs-table th, .specs-table td {
         padding: 10px 12px;
         font-size: 0.9rem;
+    }
+    
+    .modal-close-button {
+        right: 30px;
     }
 }
 
