@@ -41,7 +41,7 @@ export function Contact() {
     setStep('loading');
 
     try {
-      const res = await fetch('/api/send', {
+      const res = await fetch('/api/send-email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
