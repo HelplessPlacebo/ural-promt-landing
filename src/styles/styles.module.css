@@ -103,6 +103,11 @@
     border-radius: 12px;
 }
 
+@media (max-width: 768px) {
+    .btnPrimary {
+        padding: 8px 24px;
+    }
+}
 
 @keyframes spin {
     0% {

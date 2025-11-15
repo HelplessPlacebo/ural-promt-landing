@@ -46,10 +46,10 @@ export function Slider({ slides }: SliderProps) {
         </div>
 
         <button className={cn(s.sliderArrow, s.sliderArrowLeft)} onClick={prevSlide}>
-          <FaChevronLeft />
+          <FaChevronLeft size={16} />
         </button>
         <button className={cn(s.sliderArrow, s.sliderArrowRight)} onClick={nextSlide}>
-          <FaChevronRight />
+          <FaChevronRight size={16} />
         </button>
       </div>
 
