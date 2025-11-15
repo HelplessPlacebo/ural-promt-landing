@@ -1,102 +1,117 @@
 .glass {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
 }
 
 .container {
-  max-width: var(--maw);
-  margin: 0 auto;
-  padding: 0 16px;
+    max-width: var(--maw);
+    margin: 0 auto;
+    padding: 0 16px;
 }
 
 .flexBetween {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .previewImg {
-  border-radius: 12px;
-  cursor: pointer;
-  width: 100%;
-  aspect-ratio: 16 / 9;
+    border-radius: 12px;
+    cursor: pointer;
+    width: 100%;
+    aspect-ratio: 16 / 9;
 }
 
 .btnPrimary {
-  background: linear-gradient(135deg, var(--accent), var(--accent-2));
-  color: #fff;
-  padding: 12px 28px;
-  border: none;
-  border-radius: 10px;
-  font-weight: 500;
-  font-size: 1rem;
-  cursor: pointer;
-  transition:
-    transform 0.22s ease,
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    color: #fff;
+    padding: 12px 28px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 500;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.22s ease,
     box-shadow 0.22s ease;
-  text-decoration: none;
+    text-decoration: none;
 }
 
 .background:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 30px rgba(0, 170, 255, 0.08);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0, 170, 255, 0.08);
 }
 
 /* ---------- FULL WIDTH BUTTON ---------- */
 .btnFull {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  max-width: 300px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 300px;
 }
 
 .flexCenter {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
 }
 
 .loader {
-  width: 50px;
-  height: 50px;
-  border: 5px solid rgba(255, 255, 255, 0.12);
-  border-top-color: var(--accent);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(255, 255, 255, 0.12);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation-name: spin;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
 }
 
 .modalMediaContainer {
-  position: relative;
+    position: relative;
 
-  flex: 1 1 auto;
-  width: 100%;
-  height: 100%;
+    flex: 1 1 auto;
+    width: 100%;
+    height: 100%;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-  padding: 60px;
-  overflow: hidden;
+    padding: 60px;
+    overflow: hidden;
 }
 
 .modalMediaContainer img,
 .modalMediaContainer video,
 .modalMediaContainer iframe {
-  max-width: 100%;
-  max-height: 100%;
+    max-width: 100%;
+    max-height: 100%;
 
-  width: auto;
-  height: auto;
+    width: auto;
+    height: auto;
 
-  object-fit: contain;
-  user-select: none;
-  -webkit-user-drag: none;
-  border-radius: 12px;
+    object-fit: contain;
+    user-select: none;
+    -webkit-user-drag: none;
+    border-radius: 12px;
+}
+
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(180deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
