@@ -1,0 +1,15 @@
+.galleryVideoPreview {
+  object-fit: cover;
+  cursor: pointer;
+  border-radius: 12px;
+  width: 100%;
+  height: auto;
+  max-height: 500px;
+}
+
+.slide {
+  min-width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

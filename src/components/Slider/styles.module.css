@@ -1,0 +1,65 @@
+.sliderContainer {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-radius: 12px;
+}
+
+.sliderTrack {
+  display: flex;
+  transition: transform 0.5s cubic-bezier(0.2, 0.9, 0.3, 1);
+  will-change: transform;
+}
+
+.sliderArrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 170, 255, 0.8);
+  color: white;
+  border: none;
+  padding: 0.45rem 0.9rem;
+  font-size: 1.6rem;
+  border-radius: 50%;
+  cursor: pointer;
+  transition:
+    transform 0.18s,
+    background 0.18s;
+  z-index: 40;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.28);
+}
+
+.sliderArrow:hover {
+  transform: translateY(-50%) scale(1.05);
+}
+
+.sliderArrowLeft {
+  left: 12px;
+}
+
+.sliderArrowRight {
+  right: 12px;
+}
+
+.dots {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+  gap: 8px;
+}
+
+.dots button {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.18);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.dotsButtonActive {
+  background: var(--accent) !important;
+}

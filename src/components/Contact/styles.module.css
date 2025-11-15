@@ -1,0 +1,47 @@
+.contactForm {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  margin: 0 auto 40px;
+  gap: 14px;
+}
+
+.contactForm input,
+.contactForm textarea {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text);
+  font-size: 1rem;
+  resize: none;
+  outline: none;
+  transition:
+    border 0.18s,
+    box-shadow 0.18s;
+}
+
+.contactForm input:focus,
+.contactForm textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 6px 20px rgba(0, 170, 255, 0.06);
+}
+
+.contactInfo {
+  text-align: center;
+  line-height: 1.8;
+  color: #d0d4dc;
+}
+
+.contactInfo svg {
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.contactFormStatus {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+  justify-content: center;
+}

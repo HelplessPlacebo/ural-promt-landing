@@ -1,0 +1,85 @@
+.tabsRoot {
+  max-width: var(--maw);
+  margin: 0 auto;
+}
+
+.tabHeader {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+}
+
+.tabBtn {
+  flex: 1 1 22%;
+  min-width: 140px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text);
+  font-weight: 600;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  padding: 0.75rem 1.25rem;
+  font-size: 1rem;
+  border-radius: 0.75rem;
+  transition: all 0.25s ease;
+}
+
+.tabBtn:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+}
+
+.tabBtnActive {
+  border: 1px solid rgba(0, 170, 255, 0.35);
+  box-shadow: 0 8px 28px rgba(0, 120, 255, 0.22);
+}
+
+.tabContent {
+  position: relative;
+  min-height: 220px;
+}
+
+.tabPaneMotion {
+  padding-top: 6px;
+}
+
+@media (max-width: 980px) {
+  .specsFeaturesGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .tabHeader {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+  }
+
+  .tabBtn {
+    flex: 1 1 auto;
+    min-width: 120px;
+    padding: 0.9rem 1rem;
+    font-size: 1.05rem;
+    border-radius: 0.75rem;
+    line-height: 1.3;
+  }
+
+  .tabBtnActive {
+    border-width: 2px;
+  }
+}

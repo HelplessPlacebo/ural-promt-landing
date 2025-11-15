@@ -1,0 +1,36 @@
+.hero {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100vh;
+  background: url('/hero-bg.webp') center/cover no-repeat;
+  color: var(--text);
+  position: relative;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #000000ba;
+}
+
+.hero > div {
+  position: relative;
+  z-index: 2;
+  max-width: 700px;
+}
+
+.hero p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  color: #d0d4dc;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 0 20px;
+  }
+}

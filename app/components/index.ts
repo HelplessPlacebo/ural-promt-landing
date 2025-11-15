@@ -1,7 +1,0 @@
-export {Contact} from './Contact'
-export {Footer} from './Footer'
-export {Hero} from './Hero'
-export {Header} from './Header'
-export {Specs} from './Specs'
-export {Features} from './Features'
-export {Gallery} from './Gallery'

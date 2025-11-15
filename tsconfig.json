@@ -17,11 +17,27 @@
     "plugins": [
       {
         "name": "next"
+      },
+      {
+        "name": "typescript-plugin-css-modules",
+        "options": {
+          "camelCase": true,
+          "customMatcher": "\\.module\\.css$",
+          "exportValues": true
+        }
       }
     ],
     "baseUrl": ".",
     "paths": {
-      "@/components": ["./app/components/index.ts"]
+      "@/components": ["./src/components/index.ts"],
+      "@/data": ["./src/data/index.ts"],
+      "@/context": ["./src/context/index.ts"],
+      "@/hooks": ["./src/hooks/index.ts"],
+      "@/const": ["./src/const/index.ts"],
+      "@/types": ["./src/types/index.ts"],
+      "@/utils": ["./src/utils/index.ts"],
+      "@/globalStyles": ["./src/styles/styles.module.css"],
+      "@/*": ["./app/*"]
     }
   },
   "include": [

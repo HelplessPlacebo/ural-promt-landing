@@ -1,18 +1,17 @@
-import {Contact, Features, Footer, Gallery, Header, Hero, Specs} from "@/components";
-
+import { Contact, Footer, Gallery, Header, Hero, PlatformTabs } from '@/components';
+import { ModalProvider } from '@/context';
 
 export default function Page() {
-    return (
-        <>
-            <Header/>
-            <main>
-                <Hero/>
-                <Specs/>
-                <Features/>
-                <Gallery/>
-                <Contact/>
-            </main>
-            <Footer/>
-        </>
-    );
+  return (
+    <ModalProvider>
+      <Header />
+      <main>
+        <Hero />
+        <PlatformTabs />
+        <Gallery />
+        <Contact />
+      </main>
+      <Footer />
+    </ModalProvider>
+  );
 }
