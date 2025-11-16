@@ -103,9 +103,17 @@
     border-radius: 12px;
 }
 
+.inputError {
+    color: #ff6b6b;
+    font-size: 0.9rem;
+    margin-top: 6px;
+    margin-left: 4px;
+}
+
+
 @media (max-width: 768px) {
     .btnPrimary {
-        padding: 8px 24px;
+        padding: 10px 24px;
     }
 }
 

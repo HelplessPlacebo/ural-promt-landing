@@ -13,177 +13,136 @@ import s from './styles.module.css';
 
 export function Contact() {
     const [step, setStep] = useState<'form' | 'loading' | 'success' | 'error'>('form');
-    const [status, setStatus] = useState('');
-    const [phone, setPhone] = useState('');
-    const [phoneError, setPhoneError] = useState<string | null>(null);
 
-    const validatePhone = (value: string) => {
-        const digits = value.replace(/\D/g, '');
-        if (digits.length < 10) return 'Введите корректный номер телефона';
-        return null;
+    const [formData, setFormData] = useState({
+        name: '',
+        phone: '',
+        message: '',
+    });
+
+    const [errors, setErrors] = useState({
+        name: '',
+        phone: '',
+        message: '',
+    });
+
+    const validate = () => {
+        const newErrors = {
+            name: !formData.name.trim() ? 'Введите имя' : '',
+            phone: formData.phone.replace(/\D/g, '').length < 10 ? 'Введите корректный номер' : '',
+            message: !formData.message.trim() ? 'Введите ваше сообщение' : '',
+        };
+
+        setErrors(newErrors);
+        return !Object.values(newErrors).some(Boolean);
     };
 
-    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
-
-        const phoneErr = validatePhone(phone);
-        if (phoneErr) {
-            setPhoneError(phoneErr);
-            return;
-        } else {
-            setPhoneError(null);
-        }
-
-        const form = e.currentTarget;
-        const data = Object.fromEntries(new FormData(form));
-        (data as any).phone = phone;
+        if (!validate()) return;
 
         setStep('loading');
 
         try {
             const res = await fetch('/api/send-email', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(formData),
             });
 
             if (res.ok) {
                 setStep('success');
-                form.reset();
-                setPhone('');
             } else {
-                setStatus('Ошибка при отправке.');
                 setStep('error');
             }
-        } catch (err) {
-            setStatus('Ошибка при отправке.');
+        } catch {
             setStep('error');
         }
     };
 
     return (
-        <div className={cn(gs.glass, gs.container)}>
+        <div className={cn(gs.glass, gs.container, s.formRoot)}>
             <section id="contacts">
-                {step !== 'error' && step !== 'success' && <h2>Свяжитесь с нами</h2>}
+                <h2> {step === 'form' ? 'Свяжитесь с нами' : 'Спасибо за обращение!'} </h2>
 
+                <div className={s.formWrapper}>
+                    <AnimatePresence mode="wait">
+                        {step === 'form' && (
+                            <motion.form
+                                key="form"
+                                onSubmit={handleSubmit}
+                                className={s.contactForm}
+                                initial={{opacity: 0, y: 20}}
+                                animate={{opacity: 1, y: 0}}
+                                exit={{opacity: 0, y: -20}}
+                                transition={{duration: 0.3}}
+                            >
+                                <div>
+                                    <input
+                                        name="name"
+                                        placeholder="Имя"
+                                        value={formData.name}
+                                        onChange={(e) => setFormData(prev => ({...prev, name: e.target.value}))}
+                                    />
+                                    {errors.name && <p className={gs.inputError}>{errors.name}</p>}
+                                </div>
 
-                <AnimatePresence mode="wait">
-                    {step === 'form' && (
-                        <motion.form
-                            key="form"
-                            onSubmit={handleSubmit}
-                            className={s.contactForm}
-                            initial={{
-                                opacity: 0,
-                                y: 20,
-                            }}
-                            animate={{
-                                opacity: 1,
-                                y: 0,
-                            }}
-                            exit={{
-                                opacity: 0,
-                                y: -20,
-                            }}
-                            transition={{
-                                duration: 0.3,
-                            }}
-                        >
-                            <input name="name" placeholder="Имя" required/>
+                                <div>
+                                    <PhoneNumberInput
+                                        value={formData.phone}
+                                        onChange={(phone) => setFormData(prev => ({...prev, phone}))}
+                                        placeholder="Телефон"
+                                        required
+                                        error={errors.phone}
+                                    />
+                                </div>
 
-                            <PhoneNumberInput
-                                value={phone}
-                                onChange={setPhone}
-                                placeholder="Телефон"
-                                required
-                                error={phoneError}
-                            />
+                                <div>
+                  <textarea
+                      name="message"
+                      placeholder="Комментарий"
+                      value={formData.message}
+                      onChange={(e) => setFormData(prev => ({...prev, message: e.target.value}))}
+                  />
+                                    {errors.message && <p className={gs.inputError}>{errors.message}</p>}
+                                </div>
 
-                            <textarea name="message" placeholder="Комментарий"/>
+                                <button type="submit" className={gs.btnPrimary}>
+                                    Отправить
+                                </button>
+                            </motion.form>
+                        )}
 
-                            <button type="submit" className={gs.btnPrimary}>
-                                Отправить
-                            </button>
-                        </motion.form>
-                    )}
+                        {step === 'loading' && (
+                            <motion.div key="loading" className={s.centerStatus} animate={{opacity: 1}}>
+                                <div className={gs.loader}></div>
+                                <p>Отправка...</p>
+                            </motion.div>
+                        )}
 
-                    {step === 'loading' && (
-                        <motion.div
-                            key="loading"
-                            className={cn(s.contactForm, gs.flexCenter)}
-                            initial={{
-                                opacity: 0,
-                            }}
-                            animate={{
-                                opacity: 1,
-                            }}
-                            exit={{
-                                opacity: 0,
-                            }}
-                        >
-                            <div className={gs.loader}></div>
-                            <p>Отправка...</p>
-                        </motion.div>
-                    )}
+                        {step === 'success' && (
+                            <motion.div key="success" className={s.centerStatus} animate={{opacity: 1}}>
+                                <GrStatusGood size={120} color="green"/>
+                                <span>Успешно отправлено!</span>
+                            </motion.div>
+                        )}
 
-                    {step === 'success' && (
-                        <motion.div
-                            key="success"
-                            className={cn(s.contactForm, gs.flexCenter)}
-                            initial={{
-                                opacity: 0,
-                            }}
-                            animate={{
-                                opacity: 1,
-                            }}
-                            exit={{
-                                opacity: 0,
-                            }}
-                        >
-                            <div className={s.contactFormStatus}>
-                                <GrStatusGood color="green" size={120}/>
-                                <span>Ваше обращение успешно отправлено!</span>
-                            </div>
-                        </motion.div>
-                    )}
-
-                    {step === 'error' && (
-                        <motion.div
-                            key="error"
-                            className={cn(s.contactForm, gs.flexCenter)}
-                            initial={{
-                                opacity: 0,
-                            }}
-                            animate={{
-                                opacity: 1,
-                            }}
-                            exit={{
-                                opacity: 0,
-                            }}
-                        >
-                            <div className={s.contactFormStatus}>
-                                <MdError color="red" size={120}/>
-                                <span>{status}</span>
-                            </div>
-                            <button className={gs.btnPrimary} onClick={() => setStep('form')}>
-                                Попробовать снова
-                            </button>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
+                        {step === 'error' && (
+                            <motion.div key="error" className={s.centerStatus} animate={{opacity: 1}}>
+                                <MdError size={120} color="red"/>
+                                <span>Ошибка при отправке</span>
+                                <button className={gs.btnPrimary} onClick={() => setStep('form')}>
+                                    Попробовать снова
+                                </button>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </div>
 
                 <div className={s.contactInfo}>
-                    <p>
-                        <FiMapPin/> г.Нижний Тагил, ул.Аганичева, стр.107, офис217
-                    </p>
-                    <p>
-                        <FiPhone/> +7 929 21 37 505
-                    </p>
-                    <p>
-                        <FiMail/> td‑upt@yandex.ru
-                    </p>
+                    <p><FiMapPin/> г.Нижний Тагил, ул.Аганичева, 107, офис 217</p>
+                    <p><FiPhone/> +7 929 21 37 505</p>
+                    <p><FiMail/> td-upt@yandex.ru</p>
                 </div>
             </section>
         </div>
