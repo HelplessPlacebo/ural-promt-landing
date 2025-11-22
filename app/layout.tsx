@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { ReactNode } from 'react';
 import './globals.css';
 
-const SITE_URL = 'https://ural-promt-landing-s27k.vercel.app';
+const SITE_URL = 'https://www.ural-promt.ru';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
