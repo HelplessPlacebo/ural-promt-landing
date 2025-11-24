@@ -70,7 +70,7 @@ self.addEventListener('fetch', (evt) => {
     return;
   }
 
-  if (url.pathname.match(/\.(js|css|woff2|woff|ttf|mp4)$/)) {
+  if (url.pathname.match(/\.(js|css|woff2|woff|ttf)$/)) {
     evt.respondWith(
       (async () => {
         const buildId = await (async () => {
