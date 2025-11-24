@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint . --ext js,jsx,ts,tsx",
     "lint:fix": "eslint . --ext js,jsx,ts,tsx --fix",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "postbuild": "node ./scripts/write-build-id.js"
   },
   "dependencies": {
     "classnames": "^2.5.1",
