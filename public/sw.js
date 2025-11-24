@@ -1,94 +1,118 @@
-const STATIC_CACHE = 'static-cache-v1';
-const IMAGE_CACHE = 'image-cache-v1';
 const BUILD_ID_URL = '/build-id.txt';
+const STATIC_PREFIX = 'static-cache-';
+const IMAGE_CACHE = 'image-cache';
+const FALLBACK_RESPONSE = new Response('Network error', { status: 504 });
 
-async function readBuildId() {
+async function fetchBuildId() {
   try {
     const r = await fetch(BUILD_ID_URL, { cache: 'no-store' });
     if (!r.ok) return null;
-    return await r.text();
+    return (await r.text()).trim();
   } catch (e) {
     return null;
   }
 }
 
-self.addEventListener('install', (e) => {
+self.addEventListener('install', (evt) => {
   self.skipWaiting();
 });
 
-self.addEventListener('activate', (e) => {
-  e.waitUntil(
+self.addEventListener('activate', (evt) => {
+  evt.waitUntil(
     (async () => {
-      const newBuildId = await readBuildId();
-      const meta = await caches.open(STATIC_CACHE).then((c) => c.match('/.build-meta'));
-      let oldBuildId = null;
-      if (meta) {
-        try {
-          oldBuildId = await (await meta.text()).trim();
-        } catch {}
-      }
-      if (oldBuildId !== newBuildId) {
-        const keys = await caches.keys();
-        await Promise.all(keys.map((k) => caches.delete(k)));
-        const c = await caches.open(STATIC_CACHE);
-        await c.put(
-          '/.build-meta',
-          new Response(newBuildId || '', { headers: { 'Content-Type': 'text/plain' } })
-        );
-      }
+      const newBuildId = await fetchBuildId();
+      const newStaticCache = STATIC_PREFIX + (newBuildId || 'noid');
+
+      const keys = await caches.keys();
+      await Promise.all(
+        keys.map(async (k) => {
+          if (k !== newStaticCache && k !== IMAGE_CACHE) {
+            await caches.delete(k);
+          }
+        })
+      );
+
+      const staticCache = await caches.open(newStaticCache);
+      await staticCache.put(
+        '/.build-meta',
+        new Response(newBuildId || '', { headers: { 'Content-Type': 'text/plain' } })
+      );
       await self.clients.claim();
     })()
   );
 });
 
-self.addEventListener('fetch', (e) => {
-  const url = new URL(e.request.url);
-  if (e.request.method !== 'GET') return;
+self.addEventListener('fetch', (evt) => {
+  const req = evt.request;
+  if (req.method !== 'GET') return;
+
+  const url = new URL(req.url);
+
+  if (url.origin !== self.location.origin) return;
 
   if (
-    url.pathname.startsWith('/platforms/') ||
-    url.pathname.match(/\.(png|jpg|jpeg|webp|avif|svg)$/)
+    url.pathname.match(/\.(png|jpg|jpeg|webp|avif|svg|gif)$/) ||
+    url.pathname.startsWith('/platforms/')
   ) {
-    e.respondWith(
-      caches.open(IMAGE_CACHE).then(async (cache) => {
-        const cached = await cache.match(e.request);
-        const networkFetch = fetch(e.request)
+    evt.respondWith(
+      (async () => {
+        const cache = await caches.open(IMAGE_CACHE);
+        const cached = await cache.match(req);
+        const network = fetch(req)
           .then((res) => {
-            if (res && res.ok) cache.put(e.request, res.clone());
+            if (res && res.ok) cache.put(req, res.clone());
             return res;
           })
           .catch(() => null);
-        return cached || networkFetch || new Response('', { status: 504 });
-      })
+        return cached || network || FALLBACK_RESPONSE;
+      })()
     );
     return;
   }
 
   if (url.pathname.match(/\.(js|css|woff2|woff|ttf|mp4)$/)) {
-    e.respondWith(
-      caches.open(STATIC_CACHE).then(async (cache) => {
-        const r = await cache.match(e.request);
-        if (r) return r;
-        const net = await fetch(e.request);
-        if (net && net.ok) cache.put(e.request, net.clone());
-        return net;
-      })
+    evt.respondWith(
+      (async () => {
+        const buildId = await (async () => {
+          const staticKeys = await caches.keys();
+          return (
+            staticKeys.find((k) => k.startsWith(STATIC_PREFIX))?.slice(STATIC_PREFIX.length) || null
+          );
+        })();
+        const currentCacheName = STATIC_PREFIX + (buildId || 'noid');
+        const cache = await caches.open(currentCacheName);
+        const cached = await cache.match(req);
+        if (cached) return cached;
+        try {
+          const net = await fetch(req);
+          if (net && net.ok) await cache.put(req, net.clone());
+          return net;
+        } catch {
+          return FALLBACK_RESPONSE;
+        }
+      })()
     );
     return;
   }
-
-  if (url.pathname === '/' || url.pathname.endsWith('.html')) {
-    e.respondWith(
+  if (req.headers.get('accept')?.includes('text/html')) {
+    evt.respondWith(
       (async () => {
         try {
-          const net = await fetch(e.request);
+          const net = await fetch(req);
           if (net && net.ok) {
-            const cache = await caches.open(STATIC_CACHE);
-            cache.put(e.request, net.clone());
+            const staticKeys = await caches.keys();
+            const currentCacheName =
+              staticKeys.find((k) => k.startsWith(STATIC_PREFIX)) || STATIC_PREFIX + 'noid';
+            const cache = await caches.open(currentCacheName);
+            await cache.put(req, net.clone());
           }
           return net;
         } catch {
-          const cached = await caches.open(STATIC_CACHE).then((c) => c.match(e.request));
+          const staticKeys = await caches.keys();
+          const currentCacheName = staticKeys.find((k) => k.startsWith(STATIC_PREFIX)) || null;
+          if (!currentCacheName) return new Response('Offline', { status: 503 });
+          const cache = await caches.open(currentCacheName);
+          const cached = await cache.match(req);
           return cached || new Response('Offline', { status: 503 });
         }
       })()
