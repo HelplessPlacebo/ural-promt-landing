@@ -1,33 +1,31 @@
 .galleryVideoPreview {
-    object-fit: cover;
-    cursor: pointer;
-    border-radius: 12px;
-    width: 100%;
-    height: auto;
+  object-fit: cover;
+  cursor: pointer;
+  border-radius: 12px;
+  width: 100%;
+  height: auto;
 }
 
 .slide {
-    min-width: 100%;
-    display: flex;
-    justify-content: center;
+  min-width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .galleryPreviewImg {
-    width: 100%;
-    border-radius: 16px;
-    height: 100%;
+  width: 100%;
+  border-radius: 16px;
+  height: 100%;
 }
 
 @media (max-width: 980px) {
-    .galleryPreviewImg {
-        max-height: 720px;
-    }
-
+  .galleryPreviewImg {
+    max-height: 720px;
+  }
 }
 
 @media (max-width: 768px) {
-    .galleryPreviewImg {
-        max-height: 400px;
-    }
-
+  .galleryPreviewImg {
+    max-height: 400px;
+  }
 }

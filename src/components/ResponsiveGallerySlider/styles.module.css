@@ -1,73 +1,73 @@
 .wrapper {
-    position: relative;
-    width: 100%;
-    max-width: var(--maw);
-    margin: 0 auto;
+  position: relative;
+  width: 100%;
+  max-width: var(--maw);
+  margin: 0 auto;
 }
 
 .scroller {
-    display: grid;
-    grid-auto-flow: column;
-    gap: 20px;
+  display: grid;
+  grid-auto-flow: column;
+  gap: 20px;
 
-    /* Автоматическая ширина карточек под доступное место */
-    grid-auto-columns: minmax(260px, 1fr);
+  /* Автоматическая ширина карточек под доступное место */
+  grid-auto-columns: minmax(260px, 1fr);
 
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    padding: 10px 0;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 10px 0;
 }
 
 .scroller::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 .card {
-    scroll-snap-align: start;
-    border-radius: 12px;
-    overflow: hidden;
-    background: var(--card-bg);
-    backdrop-filter: blur(10px);
-    padding: 6px;
-    box-shadow: 0 6px 18px var(--shadow-strong);
-    cursor: pointer;
+  scroll-snap-align: start;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--card-bg);
+  backdrop-filter: blur(10px);
+  padding: 6px;
+  box-shadow: 0 6px 18px var(--shadow-strong);
+  cursor: pointer;
 }
 
 .arrowLeft,
 .arrowRight {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(0, 170, 255, 0.8);
-    color: white;
-    border: none;
-    padding: 0.4rem 0.7rem;
-    font-size: 1.4rem;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: transform 0.18s;
-    z-index: 10;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.28);
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 170, 255, 0.8);
+  color: white;
+  border: none;
+  padding: 0.4rem 0.7rem;
+  font-size: 1.4rem;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.18s;
+  z-index: 10;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.28);
 }
 
 .arrowLeft:hover,
 .arrowRight:hover {
-    transform: translateY(-50%) scale(1.05);
+  transform: translateY(-50%) scale(1.05);
 }
 
 .arrowLeft {
-    left: -12px;
+  left: -12px;
 }
 
 .arrowRight {
-    right: -12px;
+  right: -12px;
 }
 
 @media (max-width: 768px) {
-    .arrowLeft,
-    .arrowRight {
-        display: none;
-    }
+  .arrowLeft,
+  .arrowRight {
+    display: none;
+  }
 }

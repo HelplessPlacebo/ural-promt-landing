@@ -4,13 +4,12 @@ import { MODAL_IDS } from '@/const';
 import { Platform, platforms } from '@/data';
 import { useModal } from '@/hooks';
 import { getLayoutType } from '@/utils';
+import cn from 'classnames';
 import { motion } from 'framer-motion';
-import Image from 'next/image';
 import Link from 'next/link';
 import gs from '../../styles/styles.module.css';
 import { Tabs } from '../Tabs';
 import s from './styles.module.css';
-import cn from "classnames";
 
 export function PlatformTabs() {
   const { openModal } = useModal();
@@ -61,19 +60,14 @@ export function PlatformTabs() {
 
           <p className={s.platformDescription}>{platform.description}</p>
 
-              <div className={s.specsGrid}>
-                {platform.specs.map((spec, i) => (
-                  <div
-                    key={i}
-                    className={s.specItem}
-                  >
-                    <div className={s.specLabel}>{spec.label}</div>
-                    <div className={s.specValue}>{spec.value}</div>
-                  </div>
-                ))}
+          <div className={s.specsGrid}>
+            {platform.specs.map((spec, i) => (
+              <div key={i} className={s.specItem}>
+                <div className={s.specLabel}>{spec.label}</div>
+                <div className={s.specValue}>{spec.value}</div>
               </div>
-
-
+            ))}
+          </div>
         </div>
       </div>
     ),

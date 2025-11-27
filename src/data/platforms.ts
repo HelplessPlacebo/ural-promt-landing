@@ -30,16 +30,12 @@ export const platforms: Platform[] = [
         value: '12 м',
       },
       {
-        label: 'Масса',
-        value: '2510 кг',
+        label: 'Аккумулятор',
+        value: '4×6В / 200 А·ч',
       },
       {
         label: 'Двигатель',
         value: '24В / 3.3 кВт',
-      },
-      {
-        label: 'Аккумулятор',
-        value: '4×6В / 200 А·ч',
       },
     ],
     features: [
@@ -68,10 +64,6 @@ export const platforms: Platform[] = [
       {
         label: 'Поворот башни',
         value: '356°',
-      },
-      {
-        label: 'Масса',
-        value: '2850 кг',
       },
       {
         label: 'Аккумулятор',
@@ -106,10 +98,6 @@ export const platforms: Platform[] = [
         value: '352°',
       },
       {
-        label: 'Масса',
-        value: '4980 кг',
-      },
-      {
         label: 'Аккумулятор',
         value: '48В / 260 А·ч',
       },
@@ -136,10 +124,6 @@ export const platforms: Platform[] = [
       {
         label: 'Грузоподъёмность',
         value: '159 кг',
-      },
-      {
-        label: 'Масса',
-        value: '1160 кг',
       },
       {
         label: 'Аккумулятор',
