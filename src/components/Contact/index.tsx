@@ -44,7 +44,7 @@ export function Contact() {
     setStep('loading');
 
     try {
-      const res = await fetch('https://api.ural-promt.ru/send-email', {
+      const res = await fetch('https://api.ural-promt.ru', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
