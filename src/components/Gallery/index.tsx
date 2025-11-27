@@ -1,11 +1,12 @@
 'use client';
-import {MODAL_IDS} from '@/const';
+
+import {ResponsiveGallerySlider} from '../ResponsiveGallerySlider';
 import {useModal} from '@/hooks';
-import {getLayoutType} from '@/utils';
-import cn from 'classnames';
+import {MODAL_IDS} from '@/const';
 import gs from '../../styles/styles.module.css';
-import {Slider} from '../Slider';
 import s from './styles.module.css';
+import cn from 'classnames';
+import {getLayoutType} from '@/utils';
 
 type Slide = {
     src: string;
@@ -13,45 +14,21 @@ type Slide = {
 };
 
 const slides: Slide[] = [
-    {
-        src: '/slider-img3.webp',
-        type: 'image',
-    },
-    {
-        src: '/slider-img2.webp',
-        type: 'image',
-    },
-    {
-        src: '/video1.mp4',
-        type: 'video',
-    },
-    {
-        src: '/slider-img4.webp',
-        type: 'image',
-    },
-    {
-        src: '/slider-img5.webp',
-        type: 'image',
-    },
-    {
-        src: '/slider-img6.webp',
-        type: 'image',
-    },
-    {
-        src: '/slider-img7.webp',
-        type: 'image',
-    },
-    {
-        src: '/slider-img8.webp',
-        type: 'image',
-    },
+    {src: '/slider-img3.webp', type: 'image'},
+    {src: '/slider-img2.webp', type: 'image'},
+    {src: '/video1.mp4', type: 'video'},
+    {src: '/slider-img4.webp', type: 'image'},
+    {src: '/slider-img5.webp', type: 'image'},
+    {src: '/slider-img6.webp', type: 'image'},
+    {src: '/slider-img7.webp', type: 'image'},
+    {src: '/slider-img8.webp', type: 'image'},
 ];
 
-function GalleryItem({src, type = 'image'}: { src: string; type?: 'image' | 'video' }) {
+function GalleryItem({src, type = 'image'}: Slide) {
     const {openModal} = useModal();
-    const isImgType = type === 'image';
+    const isImg = type === 'image';
 
-    const handleImgClick = () => {
+    const click = () => {
         if (getLayoutType(window.innerWidth) !== 'desktop') {
             return window.open(src, '_blank');
         }
@@ -64,41 +41,34 @@ function GalleryItem({src, type = 'image'}: { src: string; type?: 'image' | 'vid
             showFullscreenButton: true,
             content: (
                 <div className={gs.modalMediaContainer}>
-                    {isImgType ? (
-                        <img src={src} alt="preview" draggable={false}/>
-                    ) : (
-                        <video src={src} controls/>
-                    )}
+                    {isImg ? <img src={src}/> : <video src={src} controls/>}
                 </div>
             ),
         });
     };
 
-    if (isImgType) {
-        return (
-            <img
-                src={src}
-                alt="thumb"
-                className={s.galleryPreviewImg}
-                onClick={handleImgClick}
-            />
-        );
-    }
+    if (isImg)
+        return <img src={src} className={s.galleryPreviewImg} onClick={click} draggable={false}/>;
 
-    return <video src={src} controls className={cn(s.galleryPreviewImg, s.galleryVideoPreview)}/>;
+    return (
+        <video
+            src={src}
+            className={cn(s.galleryPreviewImg, s.galleryVideoPreview)}
+            onClick={click}
+        />
+    );
 }
 
 export function Gallery() {
     return (
         <section id="gallery">
-            <h2> Галерея </h2>
+            <h2>Галерея</h2>
 
-            <Slider
-                slides={slides.map((slide, i) => (
-                    <div key={slide.type + slide.src + i} className={s.slide}>
-                        <GalleryItem {...slide} />
-                    </div>
-                ))}
+            <ResponsiveGallerySlider
+                items={slides.map((sl) => ({
+                    ...sl,
+                    element: <GalleryItem {...sl} />,
+                }))}
             />
         </section>
     );
