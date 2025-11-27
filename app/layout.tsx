@@ -7,6 +7,7 @@ const SITE_URL = 'https://www.ural-promt.ru';
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: 'Подъёмные платформы — УРАЛПРОМТ | Самоходные ножничные и мачтовые подъёмники',
+
   description:
     'Самоходные ножничные и мачтовые подъёмные платформы для высотных работ. Доставка по России и СНГ. Гарантия 3 года.',
   keywords: [
@@ -40,13 +41,16 @@ export const metadata: Metadata = {
     description: 'Высотные подъёмники самходного типа.',
     images: ['/og-main.webp'],
   },
+    alternates: {
+      canonical: 'https://www.ural-promt.ru',
+    },
+    manifest: `${SITE_URL}/manifest.json`
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="ru">
       <head>
-        <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#0077ff" />
         <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
