@@ -1,67 +1,75 @@
 .formWrapper {
-  min-height: 420px;
-  display: flex;
-  height: 100%;
-  align-items: center;
-  justify-content: center;
+    min-height: 350px;
+    display: flex;
+    height: 100%;
+    justify-content: center;
 }
 
 .formRoot {
-  padding: 0 !important;
+    padding: 48px;
 }
 
 .contactForm {
-  width: 100%;
-  max-width: 400px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
 }
 
 .contactInfo {
-  text-align: center;
-  line-height: 1.8;
-  color: #d0d4dc;
+    text-align: center;
+    line-height: 1.8;
+    color: #d0d4dc;
 }
 
 .contactInfo svg {
-  margin-right: 8px;
-  vertical-align: middle;
+    margin-right: 8px;
+    vertical-align: middle;
 }
 
 .contactForm input,
 .contactForm textarea {
-  width: 100%;
-  padding: 14px 16px;
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.04);
-  color: var(--text);
-  font-size: 1rem;
-  font-family: inherit;
-  transition:
-    border 0.2s,
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text);
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border 0.2s,
     box-shadow 0.2s;
 }
 
 .contactForm textarea {
-  min-height: 110px;
-  line-height: 1.4;
+    min-height: 110px;
+    line-height: 1.4;
 }
 
 .contactForm input:focus,
 .contactForm textarea:focus {
-  border-color: var(--accent);
-  box-shadow: 0 6px 24px rgba(0, 170, 255, 0.06);
+    border-color: var(--accent);
+    box-shadow: 0 6px 24px rgba(0, 170, 255, 0.06);
 }
 
 .centerStatus {
-  min-height: 420px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 18px;
-  text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    text-align: center;
+}
+
+
+@media (max-width: 768px) {
+    .formRoot {
+        padding: 24px;
+    }
+
+    .formWrapper {
+        min-height: 320px;
+    }
 }
